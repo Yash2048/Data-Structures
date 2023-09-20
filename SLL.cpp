@@ -44,20 +44,22 @@ class SLL{
         count++;
     }
     void insert(int data,int position){
-        Node* newnode= new Node(data);
-        if(empty()){
-            head=newnode;
-            tail=newnode;
+        if( position<0 ||position>count-1 ){
+            cout<<"Out of Index";
+            return;
         }
+        else if(position==0){addFront(data);}
+        else if(position==count-1){addBack(data);}
         else{
+            Node* newnode= new Node(data);  
             Node* ptr=head;
-            for(int i= 1; i<position-1;i++){
+            for(int i= 1; i<position;i++){
                 ptr=ptr->next;
             } 
             newnode->next=ptr->next;
             ptr->next=newnode;
+            count++;
         }
-        count++;
     }
     void removefront(){
         if(empty()){
@@ -142,8 +144,9 @@ class SLL{
         cout << "]\n";
     }
     void middle(){
-        if(head==nullptr){
+        if(empty()){
             cout<<"List is Empty\n";
+            return;
         }
         if(count%2!=0){
             Node* ptr = head;
@@ -165,7 +168,16 @@ class SLL{
 
 int main(){
     SLL s;
-    s.removefront();
+    s.addBack(1);
+    s.addBack(2);
+    s.addBack(432);
+    s.addBack(643);
+    s.addBack(1);
+    s.display();
+    s.insert(21,2);
+    s.insert(321,0);
+    s.display();
+    cout<<s.search(3213);
 
         
     return 0;
