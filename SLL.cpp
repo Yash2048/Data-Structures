@@ -1,26 +1,26 @@
-/* Write a program to implement singly linked list as an ADT that supports the following operations:
-4. Remove an element from the ith postion 
-8. reverse the linked list
- */
 #include<iostream>
 using namespace std;
 
 class Node{
     int data;
-    Node* next=nullptr;
+    Node* next;
     friend class SLL;
-
+    public:
+        Node(int num):data(num),next(nullptr) {}
 };
 class SLL{
     Node* head;
     Node* tail;
     int count;
+    bool empty(){
+        return (head == nullptr);
+    };
+
     public:
     SLL():head(nullptr),tail(nullptr),count(0){};
     void addFront(int data){
-        Node *newNode=new Node;
-        newNode->data=data;
-        if(head == nullptr){
+        Node *newNode=new Node(data);
+        if(empty()){
             head=newNode;
             tail=newNode;
         }
@@ -31,10 +31,9 @@ class SLL{
         count++;
 
     };
-    void addBack(int data){//???
-        Node *newNode=new Node;
-        newNode->data=data;
-        if(tail == nullptr ){
+    void addBack(int data){
+        Node *newNode=new Node(data);
+        if(empty()){
             head=newNode;
             tail=newNode;
         }
@@ -44,10 +43,9 @@ class SLL{
         }
         count++;
     }
-    void insert(int num,int position){
-        Node* newnode= new Node;
-        newnode->data= num;
-        if(tail=nullptr){
+    void insert(int data,int position){
+        Node* newnode= new Node(data);
+        if(empty()){
             head=newnode;
             tail=newnode;
         }
@@ -62,20 +60,48 @@ class SLL{
         count++;
     }
     void removefront(){
-        Node* ptr= head->next;
-        delete head;
-        head=ptr;
-        count--;
+        if(empty()){
+            cout<<"List is empty";
+            return;
+        }
+        else if(head->next=tail){
+            delete head;
+            delete tail;
+            head = nullptr;
+            tail = nullptr;
+            count--;
+        }
+        else{
+            Node* ptr= head->next;
+            delete head;
+            head=ptr;
+            count--;
+        }
+
+
     }
     void removeback(){
-        Node* ptr= head;
-        for(int i = 1;i<count-1;i++){
-            ptr= ptr->next;
+       if(empty()){
+            cout<<"List is empty";
+            return;
         }
-        delete tail;
-        ptr->next = nullptr;
-        tail = ptr;
-        count--;
+        else if(head->next=tail){
+            delete head;
+            delete tail;
+            head = nullptr;
+            tail = nullptr;
+            count--;
+        }
+        else{
+            Node* ptr= head;
+            while(ptr->next!=tail){
+                ptr= ptr->next;
+            }
+            delete tail;
+            tail = ptr;
+            tail->next= nullptr;
+            
+        }
     }
     void remove(int n){
         if(n<0 || n>count-1){
@@ -139,17 +165,7 @@ class SLL{
 
 int main(){
     SLL s;
-    s.addBack(23);
-    s.addBack(2);
-    s.addBack(6);
-    s.addBack(34);
-    s.addBack(1);
-    s.addBack(1);
-    s.display();
-    s.removeback();
-    s.removeback();
-    s.display();
-
+    s.removefront();
 
         
     return 0;
