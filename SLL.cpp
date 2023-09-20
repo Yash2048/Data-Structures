@@ -66,7 +66,7 @@ class SLL{
             cout<<"List is empty";
             return;
         }
-        else if(head->next=tail){
+        if(head==tail){
             delete head;
             delete tail;
             head = nullptr;
@@ -87,7 +87,7 @@ class SLL{
             cout<<"List is empty";
             return;
         }
-        else if(head->next=tail){
+        else if(head=tail){
             delete head;
             delete tail;
             head = nullptr;
@@ -108,15 +108,18 @@ class SLL{
     void remove(int n){
         if(n<0 || n>count-1){
             cout<< "out of scope\n";
+            return;
         }
         if(n==0){removefront();}
         if(n==count-1){removeback();}
         else{
             Node* ptr= head;
-            for(int i=1;i<n-1;i++){
+            for(int i=1;i<n;i++){
                 ptr=ptr->next;
             }            
-            
+            Node* ptr2= ptr->next->next;
+            delete ptr->next;
+            ptr->next=ptr2;            
         }
 
     }
@@ -170,12 +173,15 @@ int main(){
     SLL s;
     s.addBack(1);
     s.addBack(2);
-    s.addBack(432);
-    s.addBack(643);
+    s.addBack(65);
+    s.addBack(23);
+    s.addBack(12);
+    s.addBack(43);
     s.addBack(1);
     s.display();
-    s.insert(21,2);
-    s.insert(321,0);
+    s.remove(5);
+    s.remove(1);
+    s.remove(2);
     s.display();
     cout<<s.search(3213);
 
