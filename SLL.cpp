@@ -32,7 +32,7 @@ class SLL{
 
     };
     void addBack(int data){
-        Node *newNode=new Node(data);
+        Node *newNode = new Node(data);
         if(empty()){
             head=newNode;
             tail=newNode;
@@ -123,20 +123,6 @@ class SLL{
         }
 
     }
-    int search(int num) {
-        Node* ptr = head;
-        int index = 0;
-
-        while (ptr != nullptr) {
-            if (num == ptr->data) {
-                return index;
-            }
-            ptr = ptr->next;
-            index++;
-        }
-
-        return -1;
-    }
     void display() {
         Node* ptr = head;
         cout << "[ ";
@@ -167,23 +153,43 @@ class SLL{
             cout<< "The middle elements are "<<ptr->data<<" and "<<ptr->next->data<<endl;
         }
     }
+    int search(int num) {
+        Node* ptr = head;
+        int index = 0;
+
+        while (ptr != nullptr) {
+            if (num == ptr->data) {
+                return index;
+            }
+            ptr = ptr->next;
+            index++;
+        }
+
+        return -1;
+    }
+    void reverse(){
+        if(empty() || head == tail){return;}
+        Node* ptr1 = head;
+        Node* ptr2 = ptr1->next;
+        ptr1->next = nullptr;
+        do{
+            Node* ptr3 = ptr2->next;
+            ptr2->next = ptr1;
+            ptr1 = ptr2;
+            ptr2 = ptr3;
+        }
+        while(ptr2 != nullptr);
+        tail = head;
+        head = ptr1;
+    }
 };
 
 int main(){
     SLL s;
-    s.addBack(1);
-    s.addBack(2);
-    s.addBack(65);
     s.addBack(23);
-    s.addBack(12);
-    s.addBack(43);
-    s.addBack(1);
     s.display();
-    s.remove(5);
-    s.remove(1);
-    s.remove(2);
+    s.reverse();
     s.display();
-    cout<<s.search(3213);
 
         
     return 0;
