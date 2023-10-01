@@ -32,10 +32,12 @@ class CLL{
             count++;
         }
         void removeCursor(){
-            if(empty()){cout<<"The List is Empty!\n";}
+            if(empty()){cout<<"The List is Empty!\n";return;}
             else if(cursor->next == cursor){
                 delete cursor;
                 cursor = nullptr;
+                count--;
+                return;
             }
             else{
                 Node* ptr1= cursor->next;
@@ -44,25 +46,53 @@ class CLL{
                     ptr2 = ptr2->next;
                 }
                 cursor = ptr1;
-                ptr2->next = cursor;      
+                ptr2->next = cursor;    
+                count--;  
             }
         }
         void display(){
-            cout<<"[ ";
-            Node* ptr= cursor;
-            while( ptr->next != cursor ){
-                cout<<ptr->data<<" ";
-                ptr=ptr->next;
+            if (empty())
+            {
+                cout<< "[ ]\n";
             }
-            cout<<"]\n";
-
+            else{            
+                cout<<"[ ";
+                Node* ptr= cursor;
+                do{
+                    cout<<ptr->data<<" ";
+                    ptr=ptr->next;
+                }
+                while( ptr != cursor );
+                cout<<"]\n";
+            }
+        }
+        void advance(){
+            if (empty())
+            {
+                cout<<"The List is Empty\n";
+                return;
+            }
+            
+            cursor = cursor->next;
         }
 };
 
 int main(){
     CLL l;
+    l.addFront(1);
     l.addFront(2);
-
+    l.addFront(3);
+    l.addFront(4);
+    l.addFront(5);
+    l.advance();
+    l.display();
+    l.advance();
+    l.display();
+    l.advance();
+    l.display();
+    l.advance();
+    l.display();
+    l.advance();
     l.display();
     return 0;
 }
