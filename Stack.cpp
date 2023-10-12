@@ -61,7 +61,7 @@ public:
 };
 int postfixToSolution( string str){
     STACK S;
-    int a,b,n,sum = 0;
+    int a,b,n;
     for (auto &&i : str)
     {
         if(isdigit(i)){
@@ -97,15 +97,14 @@ int postfixToSolution( string str){
             default:
                 break;
             }
-            sum = sum+n;
 
         }
         ;
     }
-    return sum;
+    return S.pop();
 }
 int main() {
     STACK st;
-    cout<< postfixToSolution("11+1+");
+    cout<< postfixToSolution("");
     return 0;
 }
