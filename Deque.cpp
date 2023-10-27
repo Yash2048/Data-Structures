@@ -176,7 +176,7 @@ class DEQUE{
 int main(){
  	DEQUE d;
 	bool flag = true;
-    cout<<"1 = Quit | 2 = RemoveFront | 3 = RemoveBack | 4 = Front | 5 = Back | 6 = InsertFront | 7 = InsertBack\n";	
+    cout<<"1 = Quit | 2 = RemoveFront | 3 = RemoveBack | 4 = Front | 5 = Back | 6 = InsertFront | 7 = InsertBack | 8 = size\n";	
 	while(flag){
 		int choice;
 		cin >>choice;
@@ -220,8 +220,13 @@ int main(){
 					}
 					break;	
 
+				case 8:
+					cout<<d.size();
+					break;
+					
+
 				default:
-					cout<<"aaa";
+					cout<<"Invalid choice";
 					break;
 				}		
 		}
