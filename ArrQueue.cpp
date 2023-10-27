@@ -46,7 +46,9 @@ public:
     void display()
     {
         cout << "[ ";
-        if (r > f)
+        if(r==f){
+        }
+        else if (r > f)
         {
             for (int i = f; i < r; i++)
             {
@@ -74,6 +76,7 @@ int main(){
      cout<<"Q or q = Quit | E or e = Enqueue | D = Deque | d = Display | S or s = Size\n";
     while(flag){
         char choice;
+        cin>>choice;
         switch (choice)
         {
         case 'Q':
