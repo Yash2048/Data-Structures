@@ -68,31 +68,47 @@ public:
     }
 };
 
-int main()
-{
+int main(){
     Queue q;
-    q.enqueue(1);
-    q.enqueue(2);
-    q.enqueue(3);
-    q.enqueue(4);
-    q.enqueue(5);
-    q.enqueue(6);
-    q.enqueue(7);
-    q.dequeue();
-    q.dequeue();
-    q.dequeue();
-    q.dequeue();
-    q.dequeue();
-    q.dequeue();
-    q.enqueue(8);
-    q.enqueue(8);
-    q.enqueue(8);
-    q.enqueue(8);
-    q.enqueue(8);
-    q.enqueue(8);
-    q.enqueue(9);
-    q.enqueue(11);
-    q.enqueue(10);
-    q.display();
-    return 0;
+    int flag = true;
+     cout<<"Q or q = Quit | E or e = Enqueue | D = Deque | d = Display | S or s = Size\n";
+    while(flag){
+        char choice;
+        switch (choice)
+        {
+        case 'Q':
+        case 'q':
+            flag = false;
+            break;
+        
+        case 'E':
+        case 'e':
+            {
+            int num;
+            cout<<"Enter a Number: ";
+            cin>>num;
+            q.enqueue(num);
+            }
+            break;
+        
+        case 'D':
+            q.dequeue();
+            break;
+        
+        case 'd':
+            q.display();
+            break;
+        
+        case 'S':
+        case 's':
+            cout<<q.size()<<endl;
+            break;
+        
+        default:
+            cout<< "Invalid Choice."<<endl;
+            break;
+        }
+    }
+
+return 0;
 }
