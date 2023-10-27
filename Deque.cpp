@@ -16,15 +16,8 @@ class DLL
 private:
 	Node *header;
 	Node *trailer;
-	int count = 0;
-	bool empty()
-	{
-		if (header->next == trailer)
-		{
-			return true;
-		}
-		return false;
-	};
+	int _count = 0;
+
 
 public:
 	DLL()
@@ -35,25 +28,54 @@ public:
 		trailer->prev = header;
 		trailer->next = header->prev = NULL;
 	}
-	void addfront(int value)
-	{
-		Node *newnode = new Node;
-		newnode->element = value;
-		newnode->next = header->next;
-		newnode->prev = header;
-		header->next->prev = newnode;
-		header->next = newnode;
-		count++;
+	bool empty(){
+		if (header->next == trailer)
+		{
+			return true;
+		}
+		return false;
+	};
+	void addfront(int value){
+		if (empty()){
+			Node *newnode = new Node;
+			newnode->element = value;
+			newnode->prev = header;
+			newnode->next = trailer;
+			header->next = newnode;
+			trailer->prev = newnode;
+			_count++;
+		}
+		else{
+			Node *newnode = new Node;
+			newnode->element = value;
+			newnode->next = header->next;
+			newnode->prev = header;
+			header->next->prev = newnode;
+			header->next = newnode;
+			_count++;
+		}
+		
 	}
 	void addBack(int value)
 	{
-		Node *newnode = new Node;
-		newnode->element = value;
-		newnode->prev = trailer->prev;
-		newnode->next = trailer;
-		trailer->prev->next = newnode;
-		trailer->prev = newnode;
-		count++;
+		if(empty()){
+			Node *newnode = new Node;
+			newnode->element = value;
+			newnode->prev = header;
+			newnode->next = trailer;
+			header->next = newnode;
+			trailer->prev = newnode;
+			_count++;
+		}
+		else{
+			Node *newnode = new Node;
+			newnode->element = value;
+			newnode->prev = trailer->prev;
+			newnode->next = trailer;
+			trailer->prev->next = newnode;
+			trailer->prev = newnode;
+			_count++;
+		}
 	}
 	void removeFront()
 	{
@@ -67,7 +89,7 @@ public:
 			ptr->next->prev = header;
 			header->next = ptr->next;
 			delete ptr;
-			count--;
+			_count--;
 		}
 	}
 	void removeBack()
@@ -82,7 +104,7 @@ public:
 			ptr->prev->next = trailer;
 			trailer->prev = ptr->prev;
 			delete ptr;
-			count--;
+			_count--;
 		}
 	}
 	void display()
@@ -120,10 +142,92 @@ public:
 		for (int i = 0; i < n; i++)
 			removeBack();
 	}
-	int _count() { return count; }
+	int count() {return _count;}
+	int front(){
+		if(empty()){throw runtime_error("Deque is Empty.");}
+		return header->next->element;
+	}
+	int back(){
+		if(empty()){throw runtime_error("Deque is Empty.");}
+		return trailer->prev->element;
+	}
+
 };
 
 class DEQUE{
 	DLL deque;
-	
+	public:
+		bool empty(){
+			return deque.empty();
+		}
+		int size(){return deque.count();}
+		int front(){
+			return deque.front();
+		}
+		int back(){
+			return deque.back();
+			}
+		void insertBack(int num){deque.addBack(num);}
+		void removeBack(){deque.removeBack();}
+		void insertFront(int num){deque.addfront(num);}
+		void removeFront(){deque.removeFront();}
 };
+
+int main(){
+ 	DEQUE d;
+	bool flag = true;
+    cout<<"1 = Quit | 2 = RemoveFront | 3 = RemoveBack | 4 = Front | 5 = Back | 6 = InsertFront | 7 = InsertBack\n";	
+	while(flag){
+		int choice;
+		cin >>choice;
+		try{
+			switch (choice){
+				case 1:
+					flag = false;
+					break;
+				
+				case 2:
+					d.removeFront();
+					break;
+
+				case 3:
+					d.removeBack();
+					break;
+				
+				case 4:
+					cout<<d.front();
+					break;
+
+				case 5:
+					cout<<d.back()<<endl;
+					break;
+
+				case 6:
+					{
+					int num ;
+					cout<<"Enter the Number: ";
+					cin>>num;
+					d.insertFront(num);
+					}
+					break;
+
+				case 7:
+					{
+					int num ;
+					cout<<"Enter the Number: ";
+					cin>>num;
+					d.insertBack(num);
+					}
+					break;	
+
+				default:
+					cout<<"aaa";
+					break;
+				}		
+		}
+		catch(const runtime_error& e){
+			cout<<e.what()<<endl;
+		}
+	} 
+	return 0;
+}
