@@ -126,12 +126,20 @@ string inToPost(const string expression){
             str += i;           
         }
         else{
-            char a = i;
-            while(S.size() > 0 && p_map[S.top()]>=p_map[a]){
-                str += S.top();
-                S.pop();
+            if(i == '('){}
+            else if(i == ')'){
+                for (int s=S.size(),i = 0; i < s; i++){
+                    str += S.top();
+                    S.pop();
+                }
             }
-            S.push(a);                        
+            else{
+                while(S.size() > 0 && p_map[S.top()]>=p_map[i]){
+                    str += S.top();
+                    S.pop();
+                }
+                S.push(i);                        
+            }
         }
     }
     for (int s=S.size(),i = 0; i < s; i++){
@@ -145,4 +153,4 @@ string inToPost(const string expression){
 int main() {
     cout<< inToPost("2+3*5/4-5+9*1");
     return 0;
-}
+} 
