@@ -1,13 +1,13 @@
 #include<iostream>
 #include<string>
+#include<map>
 using namespace std;
-
 class Node {
-    int data;
+    char data;
     Node* next;
     friend class STACK;
 public:
-    Node(int D) : data(D), next(nullptr) {}
+    Node(char D) : data(D), next(nullptr) {}
 };
 class STACK {
     Node* head;
@@ -17,7 +17,15 @@ class STACK {
     }
 public:
     STACK() : head(nullptr), count(0) {}
-    void push(int data) {
+    void swap(){ 
+        if(count<2){
+            return;
+        }
+        char a = head->data, b=head->next->data;
+        head->next->data = a;
+        head->data = b; 
+    }
+    void push(char data) {
         Node* newNode = new Node(data);
         if (empty()) {
             head = newNode;
@@ -28,25 +36,22 @@ public:
         }
         count++;
     }
-    int pop() {
+    void pop() {
         if (empty()) {
             cout << "List is empty";
-            return -1; // Return a default-constructed value for string (0 for string, empty string for string, etc.)
+            return ; // Return a default-constructed value for string (0 for string, empty string for string, etc.)
         }
         if (count == 1) {
-            int a = head->data;
             delete head;
             head = nullptr;
             count--;
-            return a;
         }
         else {
-            int a = head->data;
             Node* ptr = head->next;
             delete head;
             head = ptr;
             count--;
-            return a;
+
         }
     }
     void display(){
@@ -58,54 +63,86 @@ public:
         }
         cout<< "]"<<endl;
     };
+    int top(){return head->data;}
+    int size(){return count;}
 };
-int postfixToSolution( string str){
+
+/* int postfixToSolution( string str){
     STACK S;
     int a,b,n,sum = 0;
     for (auto &&i : str)
     {
         if(isdigit(i)){
-            S.push(i-'0');
+            S.push(i);
         }
         else{
             switch (i)
             {
             case '+':
-                n = S.pop()+S.pop();
-                S.push(n);
+                n = (S.pop() - '0') + (S.pop() - '0') ;
+                S.push(n + '0');
                 break;
             
             case '-':
-                b = S.pop();
-                a = S.pop();
+                b = S.pop() - '0';
+                a = S.pop() - '0';
                 n = a-b;
-                S.push(n);
+                S.push(n + '0');
                 break;
             
             case '*':
-                n = S.pop()*S.pop();
-                S.push(n);
+                n = (S.pop() - '0')*(S.pop() - '0');
+                S.push(n + '0');
                 break;
             
             case '/':
-                b = S.pop();
-                a = S.pop();
+                b = S.pop() - '0';
+                a = S.pop() - '0';
                 n = a/b;
-                S.push(n);
+                S.push(n + '0');
                 break;
             
             default:
                 break;
             }
-            sum = sum+n;
-
+            sum = sum + (n - '0')  ;
         }
         ;
     }
     return sum;
+} 
+*/
+
+string inToPost(const string expression){
+    map<char, int> p_map;
+    p_map['-'] = 1;
+    p_map['+'] = 1;
+    p_map['*'] = 2;
+    p_map['/'] = 2;
+    STACK S;
+    string str;
+    for (auto &&i : expression){
+        if(isdigit(i)){
+            str += i;           
+        }
+        else{
+            char a = i;
+            while(S.size() > 0 && p_map[S.top()]>=p_map[a]){
+                str += S.top();
+                S.pop();
+            }
+            S.push(a);                        
+        }
+    }
+    for (int s=S.size(),i = 0; i < s; i++){
+        str += S.top();
+        S.pop();
+    }
+    
+    return str;
+
 }
 int main() {
-    STACK st;
-    cout<< postfixToSolution("11+1+");
+    cout<< inToPost("2+3*5/4-5+9*1");
     return 0;
 }
