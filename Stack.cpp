@@ -46,15 +46,6 @@ public:
 
         }
     }
-    void display(){
-        Node* ptr = head;
-        cout<<"[ ";
-        while(ptr != nullptr){
-            cout<< ptr->data<<" ";
-            ptr = ptr->next;
-        }
-        cout<< "]"<<endl;
-    };
     int top(){return head->data;}
     int size(){return count;}
 };
