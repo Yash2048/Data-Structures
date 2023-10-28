@@ -17,14 +17,6 @@ class STACK {
     }
 public:
     STACK() : head(nullptr), count(0) {}
-    void swap(){ 
-        if(count<2){
-            return;
-        }
-        char a = head->data, b=head->next->data;
-        head->next->data = a;
-        head->data = b; 
-    }
     void push(char data) {
         Node* newNode = new Node(data);
         if (empty()) {
@@ -39,7 +31,7 @@ public:
     void pop() {
         if (empty()) {
             cout << "List is empty";
-            return ; // Return a default-constructed value for string (0 for string, empty string for string, etc.)
+            return ; 
         }
         if (count == 1) {
             delete head;
@@ -67,51 +59,6 @@ public:
     int size(){return count;}
 };
 
-/* int postfixToSolution( string str){
-    STACK S;
-    int a,b,n,sum = 0;
-    for (auto &&i : str)
-    {
-        if(isdigit(i)){
-            S.push(i);
-        }
-        else{
-            switch (i)
-            {
-            case '+':
-                n = (S.pop() - '0') + (S.pop() - '0') ;
-                S.push(n + '0');
-                break;
-            
-            case '-':
-                b = S.pop() - '0';
-                a = S.pop() - '0';
-                n = a-b;
-                S.push(n + '0');
-                break;
-            
-            case '*':
-                n = (S.pop() - '0')*(S.pop() - '0');
-                S.push(n + '0');
-                break;
-            
-            case '/':
-                b = S.pop() - '0';
-                a = S.pop() - '0';
-                n = a/b;
-                S.push(n + '0');
-                break;
-            
-            default:
-                break;
-            }
-            sum = sum + (n - '0')  ;
-        }
-        ;
-    }
-    return sum;
-} 
-*/
 
 string inToPost(const string expression){
     map<char, int> p_map;
@@ -150,7 +97,8 @@ string inToPost(const string expression){
     return str;
 
 }
+
 int main() {
-    cout<< inToPost("2+3*5/4-5+9*1");
+    cout<< inToPost("(2+3)*5/4-5+9*1");
     return 0;
 } 
