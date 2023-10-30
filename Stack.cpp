@@ -1,54 +1,10 @@
 #include<iostream>
 #include<string>
 #include<map>
+#include<stack>
+#include<cmath>
 using namespace std;
-class Node {
-    char data;
-    Node* next;
-    friend class STACK;
-public:
-    Node(char D) : data(D), next(nullptr) {}
-};
-class STACK {
-    Node* head;
-    int count;
-    bool empty() {
-        return (head == nullptr);
-    }
-public:
-    STACK() : head(nullptr), count(0) {}
-    void push(char data) {
-        Node* newNode = new Node(data);
-        if (empty()) {
-            head = newNode;
-        }
-        else {
-            newNode->next = head;
-            head = newNode;
-        }
-        count++;
-    }
-    void pop() {
-        if (empty()) {
-            cout << "List is empty";
-            return ; 
-        }
-        if (count == 1) {
-            delete head;
-            head = nullptr;
-            count--;
-        }
-        else {
-            Node* ptr = head->next;
-            delete head;
-            head = ptr;
-            count--;
 
-        }
-    }
-    int top(){return head->data;}
-    int size(){return count;}
-};
 
 
 string inToPost(const string expression){
@@ -57,7 +13,7 @@ string inToPost(const string expression){
     p_map['+'] = 1;
     p_map['*'] = 2;
     p_map['/'] = 2;
-    STACK S;
+    stack<char> S;
     string str;
     for (auto &&i : expression){
         if(isdigit(i)){
@@ -88,8 +44,59 @@ string inToPost(const string expression){
     return str;
 
 }
+double evaluatePostfix(string s){
+    stack<double> S;
+    for (auto &&i : s){
+        if (isdigit(i)){
+            S.push((i-'0')*1.0);
+        }
+        else{
+            double a,b;
+            switch (i)
+            {
+            case '+':
+                a = S.top();
+                S.pop();
+                b = S.top();
+                S.pop();
+                S.push(a + b);
+                break;
+
+            case '-':
+                b = S.top();
+                S.pop();
+                a = S.top();
+                S.pop();
+                S.push(a-b);
+                break;
+
+            case '*':
+                a = S.top();
+                S.pop(); 
+                b = S.top();
+                S.pop();
+                S.push(a*b);
+                break;
+
+            case '/':
+                b = S.top();
+                S.pop();
+                a = S.top();
+                S.pop();
+                S.push(a/b);
+                break;
+
+            default:
+                cout<<"Invalid Input!"<<endl;
+                break;
+            }
+        }
+    }
+     return S.top();   
+    }
 
 int main() {
-    cout<< inToPost("(2+3)*5/4-5+9*1");
+    string str =  inToPost("(2+3)*5/4-5+9*1");
+    cout<<str<<":"<< evaluatePostfix(str);
     return 0;
 } 
